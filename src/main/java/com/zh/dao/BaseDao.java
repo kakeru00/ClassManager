@@ -1,7 +1,6 @@
 package com.zh.dao;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,7 +12,7 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.orm.hibernate5.HibernateCallback;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
-import com.mysql.jdbc.Connection;
+import com.zh.utils.Pager;
 
 public class BaseDao<T> {
 	@Resource
@@ -22,6 +21,10 @@ public class BaseDao<T> {
 	public Serializable save(T t) {
 
 		return this.hibernateTemplate.save(t);
+	}
+	public void saveOrUpdate(T t) {
+
+		this.hibernateTemplate.saveOrUpdate(t);
 	}
 
 	public void delete(T t) {
@@ -87,7 +90,14 @@ public class BaseDao<T> {
 
 		return (List<T>) this.hibernateTemplate.findByCriteria(criteria, firstResult, maxResults);
 	}
+	
 
+	
+	public int count(Class<T> clazz,String where){
+		Long number = (Long)this.hibernateTemplate.iterate("select count(*) from "+clazz.getName()+" "+where).next();
+		
+		return Integer.parseInt(number.toString());
+	}
 	@SuppressWarnings("unchecked")
 	public List<T> find(DetachedCriteria criteria) {
 

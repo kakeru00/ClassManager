@@ -12,7 +12,8 @@
 
 </head>
 <body>
-	<a href="user/users">find</a><br/>
+<a href="login">login</a>
+	<a href="user/users/1">find</a><br/>
 	<a href="user/add">add</a>
 <%-- 	<form:form action="user/upload" method="post" enctype="multipart/form-data">
 	
@@ -21,11 +22,12 @@
 	</form:form> --%>
 	<form action="user/upload" method="post" enctype="multipart/form-data">
 		<input type="file" name="file"/><br/>
-		<input type="submit"/>
+		<input type="submit" value="上传"/>
 	</form>
 	<form action="user/download">
 		<input type="text" name="fileName"/>
-		<input type="submit"/>
+		<input type="submit"value="下载"/>
 	</form>
+	<a href="user/downloadAll">downall</a>
 </body>
 </html>

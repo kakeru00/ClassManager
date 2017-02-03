@@ -4,32 +4,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+@Table(name = "t_teacher")
 @Entity
-@Table(name="t_user")
-public class User {
-	
+public class Teacher {
 	private int id;
 	private String name;
 	private String password;
 	private String email;
+	private boolean status = false;
+	private ClassAdmin classAdmin;
 	
-	public User(int id, String name, String password, String email) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.password = password;
-		this.email = email;
-	}
-	public User( String name, String password, String email) {
-		super();
-		this.name = name;
-		this.password = password;
-		this.email = email;
-	}
-	public User() {
-	}
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
@@ -56,4 +44,21 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public boolean isStatus() {
+		return status;
+	}
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+	
+	@ManyToOne
+	@JoinColumn(name="classid")
+	public ClassAdmin getClassAdmin() {
+		return classAdmin;
+	}
+	public void setClassAdmin(ClassAdmin classAdmin) {
+		this.classAdmin = classAdmin;
+	}
+	
+	
 }

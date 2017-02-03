@@ -12,34 +12,32 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.zh.controller.UserController;
-import com.zh.dao.UserDao;
-import com.zh.entity.User;
-import com.zh.service.UserService;
+import com.zh.controller.StudentController;
+import com.zh.entity.Student;
+import com.zh.service.StudentService;
 
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:Spring.xml","classpath:SpringMVC.xml"})
-public class UserTest {
+@ContextConfiguration(locations={"classpath:Spring-Hibernate.xml","classpath:SpringMVC.xml"})
+public class StudentTest {
 	
 	@Resource(name="dataSource")
 	private DataSource ds ;
 	@Autowired
-	UserController uc;  
+	StudentController uc;  
 	
 	@Resource
-	UserService us;
+	StudentService us;
 	
 	@Ignore
 	@Test 
 	public void test() throws SQLException {
 		
-		//System.out.println(ds.getUser()+ds.getPassword());
+		//System.out.println(ds.getStudent()+ds.getPassword());
 		Connection conn = ds.getConnection();
 		
 		String sql = "select * from a";
@@ -57,25 +55,12 @@ public class UserTest {
 		conn.close();
 		
 	}
-	@Ignore
+	
 	@Test
-	public void userServiceTest(){
-		
-		if(us.get(3)==null)
-			for (int i = 1; i <= 3; i++) {
-				
-				us.save(new User(i+"","",""));
-			}
-		//us.delete(new User(1,"email","name","password"));
-		System.out.println(User.class.getName());
-		List<User> users = us.find(DetachedCriteria.forClass(User.class), 1, 3);
-		for(User user : users){
-			System.out.println(user.getName());
-		}
-		
-		List<User> allusers = us.find();
-		for(User user : allusers){
-			System.out.println(user.getName());
+	public void studentServiceTest(){
+		us.deleteAll();
+		for (int i = 1; i <= 23; i++) {
+			us.save(new Student(i+"",i+"",i+""));
 		}
 	}
 

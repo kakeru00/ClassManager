@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
-  <display-name>SpringMVC</display-name>
-  <welcome-file-list>
+  <display-name>S</display-name>
+<!--   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
     <welcome-file>index.jsp</welcome-file>
     <welcome-file>default.html</welcome-file>
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
-  </welcome-file-list>
+  </welcome-file-list> -->
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:Spring.xml</param-value>
+    <param-value>classpath:Spring-Hibernate.xml</param-value>
   </context-param>
+  
   <servlet>
     <servlet-name>SpringMVC</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -26,6 +27,7 @@
     <servlet-name>SpringMVC</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  
   <filter>
     <filter-name>CharacterFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -33,6 +35,10 @@
       <param-name>encoding</param-name>
       <param-value>UTF-8</param-value>
     </init-param>
+    <init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
   </filter>
   <filter-mapping>
     <filter-name>CharacterFilter</filter-name>
@@ -45,4 +51,9 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+  
+<!--   session失效时间 -->
+	<session-config>
+		<session-timeout>0</session-timeout>
+	</session-config>
 </web-app>

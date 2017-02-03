@@ -1,42 +1,141 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+
 	<!-- 注解扫描 -->
-	<!-- <context:component-scan base-package="com.zh.controller"/> -->
+	<context:component-scan base-package="com.zh.controller" />
 	<!-- 视图解析 -->
-	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-	    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-	    <property name="prefix" value="/WEB-INF/jsp/"/>
-	    <property name="suffix" value=".jsp"/>
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
 	</bean>
-	
+
+	<!-- 解决ajax返回值UTF-8中文乱码问题 必须放在mvc:annotation-driven之前-->
+	<bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<bean
+					class="org.springframework.http.converter.StringHttpMessageConverter">
+					<property name="supportedMediaTypes">
+						<list>
+							<value>text/html;charset=UTF-8</value>
+						</list>
+					</property>
+					<property name="writeAcceptCharset" value="false" />
+					
+				</bean>
+				<!-- 使用ResponseEntity<byte[]>需配 -->
+				<bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+				<!-- json需配 -->
+				<bean id="mappingJacksonHttpMessageConverter"
+					class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+					<property name="supportedMediaTypes">
+						<list>
+							<value>application/json;charset=UTF-8</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
 	<!-- 静态资源处理 -->
-	<mvc:default-servlet-handler/>
-	<mvc:annotation-driven/>
-	
+	<mvc:default-servlet-handler />
+	<mvc:annotation-driven />
+
+
 	<!-- 文件上传 -->
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="5000000"></property>
 	</bean>
-	
-	<!-- 异常处理 -->
-	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-		<property name="exceptionMappings">
-			<props>
-				<prop key="java.lang.Exception">errors/exception</prop>
-			</props>
-		</property>
-		
-         <!-- 异常警告 -->
-        <property name="warnLogCategory" value="WARN"/>
-        <!-- 默认异常 -->
- 		<property name="defaultErrorView" value="errors/error"/>
 
-	</bean>
+	<!-- 异常处理 -->
+	<!-- <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"> 
+		<property name="exceptionMappings"> <props> <prop key="java.lang.Exception">exception/exception</prop> 
+		<prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">exception/uploadFileSize</prop> 
+		<prop key="org.apache.commons.fileupload.FileUploadBase$SizeLimitExceededException">exception/uploadFileSize</prop> 
+		</props> </property> 异常警告 <property name="warnLogCategory" value="WARN"/> 
+		默认异常 <property name="defaultErrorView" value="exception/error"/> </bean> -->
+
+	<!-- <mvc:interceptors> <mvc:interceptor> <mvc:mapping path="/**"/> <mvc:exclude-mapping 
+		path="/login"/> <mvc:exclude-mapping path="/"/> <mvc:exclude-mapping path="/resources/js/*"/> 
+		<mvc:exclude-mapping path="/resources/css/*"/> <bean id="loginInterceptor" 
+		class="com.zh.interceptor.LoginInterceptor"> <property name="toUrl" value="login"/> 
+		<property name="sessionAttr" value="student"/> </bean> </mvc:interceptor> 
+		</mvc:interceptors> -->
+
+<!-- 拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/student/**" />
+			<mvc:exclude-mapping path="/student" />
+			<mvc:exclude-mapping path="/student/**/update" />
+			<mvc:exclude-mapping path="/login" />
+			<mvc:exclude-mapping path="/" />
+			<mvc:exclude-mapping path="/resources/js/*" />
+			<mvc:exclude-mapping path="/resources/css/*" />
+			<bean id="classAdminLoginInterceptor" class="com.zh.interceptor.LoginInterceptor">
+				<property name="toUrl" value="login" />
+				<property name="sessionAttr" value="classAdmin" />
+			</bean>
+		</mvc:interceptor>
+
+		<mvc:interceptor>
+			<mvc:mapping path="/homework/**" />
+			
+			<bean id="studentLoginInterceptor" class="com.zh.interceptor.LoginInterceptor">
+				<property name="toUrl" value="login" />
+				<property name="sessionAttr">
+					<list>
+						<value>student</value>
+						<value>teacher</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/class/**" />
+			<mvc:exclude-mapping path="/class/*/update" />
+			<mvc:exclude-mapping path="/class/add" />
+			<bean id="superAdminLoginInterceptor" class="com.zh.interceptor.LoginInterceptor">
+				<property name="toUrl" value="login" />
+				<property name="sessionAttr" value="superAdmin" />
+			</bean>
+		</mvc:interceptor>
+		
+		<!-- update单独配置 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/student/*/update" />
+			
+			<bean id="updateStudentInterceptor" class="com.zh.interceptor.UpdateInterceptor">
+				<property name="toUrl" value="login" />
+				<property name="sessionAttr" value="student" />
+				<property name="sessionAttr2" value="classAdmin" />
+			</bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/class/*/update" />
+			
+			<bean id="updateClassInterceptor" class="com.zh.interceptor.UpdateInterceptor">
+				<property name="toUrl" value="login" />
+				<property name="sessionAttr" value="classAdmin" />
+				<property name="sessionAttr2" value="superAdmin" />
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+
+
+
 </beans>
