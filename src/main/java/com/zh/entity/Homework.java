@@ -30,7 +30,9 @@ public class Homework implements Serializable{
 	private Date conclude;
 	private boolean status = true;
 	private ClassAdmin classAdmin;
-	private Student author;
+	
+	private Teacher creator;
+	private Course course;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
@@ -80,19 +82,30 @@ public class Homework implements Serializable{
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	@ManyToOne
-	@JoinColumn(name="authorid")
-	public Student getAuthor() {
-		return author;
-	}
-	public void setAuthor(Student author) {
-		this.author = author;
-	}
+
 	public Date getPublish() {
 		return publish;
 	}
 	public void setPublish(Date publish) {
 		this.publish = publish;
+	}
+	
+	@ManyToOne
+	@JoinColumn(name="creatorid")
+	public Teacher getCreator() {
+		return creator;
+	}
+	public void setCreator(Teacher creator) {
+		this.creator = creator;
+	}
+	
+	@ManyToOne
+	@JoinColumn(name="courseid")
+	public Course getCourse() {
+		return course;
+	}
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 	
 }

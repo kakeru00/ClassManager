@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@SuppressWarnings("serial")
+@SuppressWarnings("serial")//静态化 hibernate某查找方法用到
 @Entity
 @Table(name="t_student")
 public class Student implements Serializable{
@@ -23,6 +23,7 @@ public class Student implements Serializable{
 	private String photo;
 	private boolean status = false;
 	private boolean access;
+	private boolean firstTag = false;
 	private ClassAdmin classAdmin;
 	
 	public Student(String id, String name, String password, String email) {
@@ -93,6 +94,12 @@ public class Student implements Serializable{
 	}
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+	public boolean isFirstTag() {
+		return firstTag;
+	}
+	public void setFirstTag(boolean firstTag) {
+		this.firstTag = firstTag;
 	}
 
 }

@@ -12,8 +12,6 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.orm.hibernate5.HibernateCallback;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
-import com.zh.utils.Pager;
-
 public class BaseDao<T> {
 	@Resource
 	private HibernateTemplate hibernateTemplate;
