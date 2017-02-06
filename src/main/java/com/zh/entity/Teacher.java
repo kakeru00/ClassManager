@@ -16,6 +16,7 @@ public class Teacher {
 	private String password;
 	private String email;
 	private boolean status = false;
+	private boolean firstTag = false;
 	private ClassAdmin classAdmin;
 	
 	@Id
@@ -59,6 +60,13 @@ public class Teacher {
 	public void setClassAdmin(ClassAdmin classAdmin) {
 		this.classAdmin = classAdmin;
 	}
+	public boolean isFirstTag() {
+		return firstTag;
+	}
+	public void setFirstTag(boolean firstTag) {
+		this.firstTag = firstTag;
+	}
 	
+
 	
 }

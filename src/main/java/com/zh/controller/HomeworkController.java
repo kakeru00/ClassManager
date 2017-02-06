@@ -51,7 +51,7 @@ public class HomeworkController {
 	@Resource
 	private StudentService studentService;
 	
-	@RequestMapping(value="/homeworks")
+/*	@RequestMapping(value="/homeworks")
 	public String find(Model model,HttpSession session){
 		Student student = (Student) session.getAttribute("student");
 		Teacher teacher = (Teacher) session.getAttribute("teacher");
@@ -60,7 +60,27 @@ public class HomeworkController {
 		criteria.add(Restrictions.eq("classAdmin", classAdmin));
 		model.addAttribute("homeworks",homeworkService.find(criteria));
 		return "homework/homeworks";
+	}*/
+	
+	@RequestMapping(value="/homeworks")
+	public String find(Model model,String hql,HttpSession session){
+		Student student = (Student) session.getAttribute("student");
+		Teacher teacher = (Teacher) session.getAttribute("teacher");
+		ClassAdmin classAdmin = null;
+		DetachedCriteria criteria = DetachedCriteria.forClass(Homework.class);
+		if(student!=null){
+			classAdmin = student.getClassAdmin(); 
+			criteria.add(Restrictions.eq("classAdmin", classAdmin));
+		}else if(teacher!=null){
+			criteria.add(Restrictions.eq("creator", teacher));
+			
+		}
+		model.addAttribute("homeworks",homeworkService.find(criteria));
+		return "homework/homeworks";
 	}
+	
+	
+	
 	
 	@RequestMapping(value="/add", method=RequestMethod.GET)
 	public String add(){
@@ -77,10 +97,12 @@ public class HomeworkController {
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
 	public String add(Homework homework,@RequestParam("file")MultipartFile file, HttpServletRequest request) throws IOException{
-		Student author = (Student) request.getSession().getAttribute("student");
-		ClassAdmin classAdmin = author.getClassAdmin();
+		//Student author = (Student) request.getSession().getAttribute("student");
+		Teacher creator = (Teacher) request.getSession().getAttribute("teacher");
+		ClassAdmin classAdmin = creator.getClassAdmin();
 		homework.setClassAdmin(classAdmin);
-		homework.setAuthor(author);
+		
+		homework.setCreator(creator);
 		if(!file.isEmpty()){
 			String folderName = homework.getClassAdmin().getClassId()+"\\attach";
 			String attachName = this.attachName(homework,file.getOriginalFilename());
@@ -128,6 +150,8 @@ public class HomeworkController {
 		homeworkService.update(homework);
 		return "redirect:/homework/homeworks";
 	}
+	
+	//update时自动填充字段
 	@ModelAttribute  
 	public void getHomework(@RequestParam(value="id",required=false)Integer id, Map<String,Object> map){
 	    if (id != null) {

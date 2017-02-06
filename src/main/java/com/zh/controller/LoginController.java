@@ -115,6 +115,8 @@ public class LoginController {
 		session.removeAttribute("superAdmin");
 		session.removeAttribute("classAdmin");
 		session.removeAttribute("student");
+		session.removeAttribute("teacher");
+		
 		return "redirect:/";
 	}
 	

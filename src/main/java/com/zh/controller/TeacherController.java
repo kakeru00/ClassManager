@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zh.entity.ClassAdmin;
 import com.zh.entity.Teacher;
-import com.zh.entity.Teacher;
 import com.zh.service.TeacherService;
 
 
