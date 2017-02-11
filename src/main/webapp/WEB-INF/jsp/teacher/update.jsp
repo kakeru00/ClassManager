@@ -15,17 +15,17 @@
 <jsp:include page="/WEB-INF/jsp/mainHead.jsp"/>
 <div class="container">
 	<div class="row">
-		<c:if test="${classAdmin != null}"><h3 class="text-center">更改学生信息</h3></c:if>
+		<c:if test="${classAdmin != null}"><h3 class="text-center">更改信息</h3></c:if>
 		<c:if test="${classAdmin == null}">
-			<h3 class="text-center">完善你的个人信息</h3>
-			<h6 class="text-center">完成后须重新登录</h6>
+			<h3 class="text-center">完善个人信息</h3>
+			
 		</c:if>
 	</div>
 	<div class="row">
 		<div class="col-sm-4"></div>
 		<div class="col-sm-4">
-			<form:form class="form-horizontal" method="post" modelAttribute="student">
-				<input type="hidden" name="id" value="${student.id }"/>  
+			<form:form class="form-horizontal" method="post" modelAttribute="teacher">
+				<input type="hidden" name="id" value="${teacher.id }"/>  
 				<div class="form-group">
 					<label class=" control-label">姓名</label>
 					<form:input path="name" required="required" class="form-control" />
@@ -37,6 +37,10 @@
 				<div class="form-group">
 					<label class="control-label">邮箱</label>
 					<form:input class="form-control"  path="email"/>
+				</div>
+				<div class="form-group">
+					<label class="control-label">手机</label>
+					<form:input class="form-control"  path="phone"/>
 				</div>
 				<c:if test="${classAdmin != null}">
 				

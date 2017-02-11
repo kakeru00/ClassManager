@@ -15,7 +15,9 @@ public class Teacher {
 	private String name;
 	private String password;
 	private String email;
+	private String phone;
 	private boolean status = false;
+	private boolean access = false;
 	private boolean firstTag = false;
 	private ClassAdmin classAdmin;
 	
@@ -65,6 +67,18 @@ public class Teacher {
 	}
 	public void setFirstTag(boolean firstTag) {
 		this.firstTag = firstTag;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public boolean isAccess() {
+		return access;
+	}
+	public void setAccess(boolean access) {
+		this.access = access;
 	}
 	
 

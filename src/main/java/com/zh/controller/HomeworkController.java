@@ -62,8 +62,8 @@ public class HomeworkController {
 		return "homework/homeworks";
 	}*/
 	
-	@RequestMapping(value="/homeworks")
-	public String find(Model model,String hql,HttpSession session){
+	@RequestMapping(value="/homeworks",method=RequestMethod.GET)
+	public String find(Model model,HttpSession session){
 		Student student = (Student) session.getAttribute("student");
 		Teacher teacher = (Teacher) session.getAttribute("teacher");
 		ClassAdmin classAdmin = null;
@@ -79,6 +79,22 @@ public class HomeworkController {
 		return "homework/homeworks";
 	}
 	
+	@RequestMapping(value="/homeworks",method=RequestMethod.POST)
+	@ResponseBody
+	public List<Homework> find(String hql,HttpSession session){
+		Teacher teacher = (Teacher) session.getAttribute("teacher");
+		if(teacher==null){
+			ClassAdmin classAdmin = (ClassAdmin) session.getAttribute("classAdmin");
+			hql=hql+" and classid='"+classAdmin.getClassId()+"'";
+		}else{
+			hql=hql+" and creatorid='"+teacher.getId()+"'";
+		}
+		
+		
+		
+		return homeworkService.find(hql);
+		
+	}
 	
 	
 	

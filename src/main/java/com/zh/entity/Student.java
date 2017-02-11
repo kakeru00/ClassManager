@@ -21,8 +21,9 @@ public class Student implements Serializable{
 	private String password = "student";
 	private String email;
 	private String photo;
+	private String phone;
 	private boolean status = false;
-	private boolean access;
+	private boolean access = false;
 	private boolean firstTag = false;
 	private ClassAdmin classAdmin;
 	
@@ -100,6 +101,12 @@ public class Student implements Serializable{
 	}
 	public void setFirstTag(boolean firstTag) {
 		this.firstTag = firstTag;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 }

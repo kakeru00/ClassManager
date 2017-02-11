@@ -1,6 +1,8 @@
 package com.zh.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,9 +16,13 @@ public class Course {
 	private int id;
 	private String name;
 	private String content;
+	private String type;
+	
 	private int status;
 	private Teacher teacher;
+	private ClassAdmin classAdmin;
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
 		return id;
 	}
@@ -49,6 +55,20 @@ public class Course {
 	}
 	public void setTeacher(Teacher teacher) {
 		this.teacher = teacher;
+	}
+	@ManyToOne
+	@JoinColumn(name="classid")
+	public ClassAdmin getClassAdmin() {
+		return classAdmin;
+	}
+	public void setClassAdmin(ClassAdmin classAdmin) {
+		this.classAdmin = classAdmin;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	

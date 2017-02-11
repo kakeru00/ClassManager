@@ -58,8 +58,11 @@ public class TeacherController {
 	public String update(Teacher teacher, @PathVariable int id) {
 
 		teacherService.update(teacher);
-		return "redirect:/teacher/teachers";
+		return "";
 	}
+	
+	
+	
 	
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable int id) {

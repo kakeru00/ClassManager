@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name="t_homework")
@@ -27,6 +29,7 @@ public class Homework implements Serializable{
 	private String attach;
 	private Date publish = new Date();
 	//@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	private Date conclude;
 	private boolean status = true;
 	private ClassAdmin classAdmin;
@@ -69,7 +72,8 @@ public class Homework implements Serializable{
 		this.classAdmin = classAdmin;
 	}
 
-	
+
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	public Date getConclude() {
 		return conclude;
 	}

@@ -19,7 +19,7 @@
 			<h3 class="text-center">
 				new Student
 			</h3>
-			<h6 class="text-center">新的教生</h6>
+			<h6 class="text-center">新的教师</h6>
 		</div>
 </div>
 

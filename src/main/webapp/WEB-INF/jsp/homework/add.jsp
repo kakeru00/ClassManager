@@ -62,6 +62,12 @@
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="col-sm-3 control-label">所属课程</label>
+				<div class="col-sm-9">
+					<input class="form-control" type="text" name="courseid" required="required"/>
+				</div>
+			</div>
+			<div class="form-group">
 				<label class=" col-sm-3 control-label">说明</label>
 				<div class="col-sm-9">
 					<textarea class="form-control" name="content" rows="" cols=""></textarea><br/>
